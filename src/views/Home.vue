@@ -1,21 +1,21 @@
 <template>
 <div class="home">
-  <!-- <MemberDisplay v-bind:talks="talks" v-on:send-member-List="receivememberList" /> -->
-  <div class="members_month">
+  <div class="all_speakers_speech_statistic">
     <h1>每月統計:</h1>
-    <ve-line :data="all_speakers_speech_statistic.chartData" :data-zoom="dataZoom" :after-set-option="membersAfterOption"></ve-line>
+    <ve-line :data="all_speakers_speech_statistic.chartData" :data-zoom="dataZoom" :events="detectSliderMove()"></ve-line>
   </div>
   <!-- <ul>
-    <li v-for="( speaker, index) in member_List" v-bind:key="index">
+    <li v-for="( speaker, index) in speaker_list" v-bind:key="index">
       <div class="speaker" v-on:click="checkChart(speaker)">
-        <img v-bind:src="speaker.photo" alt=""> {{ speaker.speaker }}
+        <img v-bind:src="speaker.photo" alt=""> {{ speaker.name }}
       </div>
-      <h3>總演講次數: {{speaker.talk_count}}</h3>
+      <h3>總演講次數: {{speaker.speechs_count}}</h3>
       <div v-if="speaker.showChart">
         <ve-line :data="speaker.chartData" :settings="chartSettings" :after-set-option="(echarts)=>memberOption(echarts,index)"></ve-line>
       </div>
     </li>
   </ul> -->
+  <MemberDisplay v-bind:speaker_list="speaker_list" v-on:send-member-List="receivememberList" />
 </div>
 </template>
 
@@ -27,8 +27,7 @@ export default {
   name: "home",
   data: function() {
     return {
-      talks: [],
-      member_List: [],
+      speaker_list: [],
       all_speakers_speech_statistic: [],
       chartSettings: {
         max: [20]
@@ -38,7 +37,8 @@ export default {
           type: "slider",
           show: true,
           start: 0,
-          end: 100
+          end: 100,
+          realtime: false //滑鼠放開時才會更新數據
         }
       ]
     };
@@ -46,6 +46,7 @@ export default {
   mounted: function() {
     // console.log('monuted');
     getStatisticData().then(response => {
+      this.speaker_list = response[0];
       this.all_speakers_speech_statistic = response[1];
     });
   },
@@ -57,7 +58,7 @@ export default {
       member.showChart = !member.showChart;
     },
     receivememberList: function(list, all_speakers_speech_statistic) {
-      this.member_List = list;
+      // this.speaker_list = list;
       this.all_speakers_speech_statistic = all_speakers_speech_statistic;
       this.calculMaxTalkCount(all_speakers_speech_statistic);
     },
@@ -68,37 +69,19 @@ export default {
       let max = count.reduce(function(oldNum, newNum) {
         return Math.max(oldNum, newNum);
       });
+      // console.log("max", max);
       this.chartSettings.max = [max];
     },
-    membersAfterOption: function(echarts) {
-      let chartDom = echarts._dom;
-      let bodyDom = document.getElementById("app");
-      let clickOnSlider = false;
-      let startPoint;
-      let endPoint;
-      // console.log(echarts);
-      echarts.on("dataZoom", params => {
-        startPoint = parseInt(params.start);
-        endPoint = parseInt(params.end);
-      });
-      chartDom.addEventListener("mousedown", e => {
-        let inSliderRange = e.offsetY > 360;
-        if (!inSliderRange) return;
-        clickOnSlider = !clickOnSlider;
-      });
-      bodyDom.addEventListener("mouseup", () => {
-        if (!clickOnSlider) return;
-        clickOnSlider = !clickOnSlider;
-        this.dynamicZoomSlider(startPoint, endPoint);
-      });
-      // echarts.on("dataZoom", params => {
-      //   startPoint = parseInt(params.start);
-      //   endPoint = parseInt(params.end);
-      //   this.dynamicZoomSlider(startPoint, endPoint)
-      // });
+    detectSliderMove: function() {
+      return {
+        datazoom: function(e) {
+          // console.log(e);
+          // this.dynamicZoomSlider(startPoint, endPoint);
+        }
+      };
     },
     memberOption: function(echarts, index) {
-      this.member_List[index].echartInit = echarts;
+      this.speaker_list[index].echartInit = echarts;
     },
     dynamicZoomSlider: function(startPoint, endPoint) {
       let changeZoom = {
@@ -111,7 +94,7 @@ export default {
           }
         ]
       };
-      this.member_List.forEach(member => {
+      this.speaker_list.forEach(member => {
         member.echartInit.setOption(changeZoom);
       });
     }
