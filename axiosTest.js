@@ -4,7 +4,6 @@ const moment = require("moment");
 let url = "https://devche.com/api/speech/data";
 
 getResult();
-
 function getResult() {
   let all_speakers_speech_statistic = {
     chartData: {
@@ -91,9 +90,9 @@ function generateMonthToNow() {
   let now = moment().format();
   let month_range = Math.abs(startTime.diff(now, "months"));
   let month_speechList = [];
-  for (let i = 0; i < month_range; i++) {
+  for (let i = 0; i <= month_range; i++) {
     let year = 5 + i > 11 ? 2018 : 2017;
-    let month = 5 + i > 11 ? 5 + i - 11 : 5 + i;
+    let month = 5 + i > 11 ? 5 + i - 12 : 5 + i;
     month_speechList.push({
       month: moment([year, month]).format("YYYY-MM"),
       month_speechs_count: 0

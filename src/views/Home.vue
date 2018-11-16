@@ -2,26 +2,15 @@
 <div class="home">
   <div class="all_speakers_speech_statistic">
     <h1>每月統計:</h1>
-    <ve-line :data="all_speakers_speech_statistic.chartData" :data-zoom="dataZoom" :events="detectSliderMove()"></ve-line>
+    <ve-line :data="all_speakers_speech_statistic.chartData" :data-zoom="all_speakers_dataZoom" :events="detectSliderMove()"></ve-line>
   </div>
-  <!-- <ul>
-    <li v-for="( speaker, index) in speaker_list" v-bind:key="index">
-      <div class="speaker" v-on:click="checkChart(speaker)">
-        <img v-bind:src="speaker.photo" alt=""> {{ speaker.name }}
-      </div>
-      <h3>總演講次數: {{speaker.speechs_count}}</h3>
-      <div v-if="speaker.showChart">
-        <ve-line :data="speaker.chartData" :settings="chartSettings" :after-set-option="(echarts)=>memberOption(echarts,index)"></ve-line>
-      </div>
-    </li>
-  </ul> -->
-  <MemberDisplay v-bind:speaker_list="speaker_list" v-on:send-member-List="receivememberList" />
+  <speakerDisplay v-bind:speaker_list_and_maxCount="{speaker:speaker_list,max:chartSettings}" :datazoom="speaker_dataZoom"  />
 </div>
 </template>
 
 <script>
 import "v-charts/lib/style.css";
-import MemberDisplay from "@/components/Member.vue";
+import speakerDisplay from "@/components/speakerDisplay.vue";
 import { getStatisticData } from "../axios";
 export default {
   name: "home",
@@ -30,60 +19,58 @@ export default {
       speaker_list: [],
       all_speakers_speech_statistic: [],
       chartSettings: {
-        max: [20]
+        max: []
       },
-      dataZoom: [
+      all_speakers_dataZoom: [
         {
           type: "slider",
           show: true,
           start: 0,
           end: 100,
-          realtime: false //滑鼠放開時才會更新數據
+          realtime: false
+        }
+      ],
+      speaker_dataZoom: [
+        {
+          type: "slider",
+          show: false,
+          start: 0,
+          end: 100
         }
       ]
     };
   },
   mounted: function() {
-    // console.log('monuted');
     getStatisticData().then(response => {
       this.speaker_list = response[0];
       this.all_speakers_speech_statistic = response[1];
+      this.chartSettings.max.push(this.calculSpeechMaxCount());
     });
   },
   components: {
-    MemberDisplay
+    speakerDisplay
   },
   methods: {
-    checkChart: function(member) {
-      member.showChart = !member.showChart;
-    },
-    receivememberList: function(list, all_speakers_speech_statistic) {
-      // this.speaker_list = list;
-      this.all_speakers_speech_statistic = all_speakers_speech_statistic;
-      this.calculMaxTalkCount(all_speakers_speech_statistic);
-    },
-    calculMaxTalkCount: function(all_month) {
-      let count = all_month.chartData.rows.map(month => {
-        return month.month_talks_count;
-      });
-      let max = count.reduce(function(oldNum, newNum) {
+    calculSpeechMaxCount: function() {
+      let speech_count_list = this.all_speakers_speech_statistic.chartData.rows.map(
+        month => {
+          return month.month_speechs_count;
+        }
+      );
+      let max_count = speech_count_list.reduce(function(oldNum, newNum) {
         return Math.max(oldNum, newNum);
       });
-      // console.log("max", max);
-      this.chartSettings.max = [max];
+      return max_count;
     },
     detectSliderMove: function() {
+      let self = this;
       return {
         datazoom: function(e) {
-          // console.log(e);
-          // this.dynamicZoomSlider(startPoint, endPoint);
+          self.updateSpeakerZoom(e.start, e.end);
         }
       };
     },
-    memberOption: function(echarts, index) {
-      this.speaker_list[index].echartInit = echarts;
-    },
-    dynamicZoomSlider: function(startPoint, endPoint) {
+    updateSpeakerZoom: function(startPoint, endPoint) {
       let changeZoom = {
         dataZoom: [
           {
@@ -94,9 +81,7 @@ export default {
           }
         ]
       };
-      this.speaker_list.forEach(member => {
-        member.echartInit.setOption(changeZoom);
-      });
+      this.speaker_dataZoom = changeZoom;
     }
   }
 };
