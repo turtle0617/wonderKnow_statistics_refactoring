@@ -1,45 +1,37 @@
-const axios = require("axios");
-const moment = require("moment");
-
-let url = "https://devche.com/api/speech/data";
-
-console.log(getSpeechRawData());
-function getSpeechRawData() {
-  return axios.get(url).then(response => {
-    return Error(response.status);
-  });
-}
-function getResult() {
-  let all_speakers_speech_statistic = {
-    chartData: {
-      columns: ["month", "month_talks_count"],
-      rows: generateMonthToNow()
-    }
+import moment from "moment";
+function initCharDataFormat() {
+  let month_talk_statistic = generateRangeYYYY_MM([2017, 5], Date.now());
+  return {
+    columns: ["month", "month_speechs_count"],
+    rows: month_talk_statistic
   };
-  axios
-    .get(url)
-    .then(generateSpeakersSpeechList)
-    .then(response => {
-      return calculSpeakersSpeechCount(response, all_speakers_speech_statistic);
-    });
 }
+//
+// function getStatisticData() {
+//   return axios
+//     .get(url)
+//     .then(generateSpeakersSpeechList)
+//     .then(response => {
+//       let all_speakers_speech_statistic = {
+//         chartData: initCharDataFormat()
+//       };
+//       return calculSpeakersSpeechCount(response, all_speakers_speech_statistic);
+//     });
+// }
 
 function generateSpeakersSpeechList(response) {
-  let repeat_speakers = response.data.result.map(result => result.speaker);
+  let repeat_speakers = response.result.map(result => result.speaker);
   let unique_speakers = [...new Set(repeat_speakers)].map(speaker => {
-    let month_talk_statistic = generateMonthToNow();
+    // let month_talk_statistic = generateEveryMonthToNow();
     return {
       name: speaker,
       speechs_count: 0,
       photo: "",
-      chartData: {
-        columns: ["month", "month_speechs_count"],
-        rows: month_talk_statistic
-      },
+      chartData: initCharDataFormat(),
       showChart: true
     };
   });
-  return [response.data.result, unique_speakers];
+  return [response.result, unique_speakers];
 }
 
 function calculSpeakersSpeechCount(
@@ -50,15 +42,16 @@ function calculSpeakersSpeechCount(
   let unique_speakers_statistic = responseResult_and_speakers[1];
   unique_speakers_statistic = unique_speakers_statistic.map(speaker => {
     response_result.forEach(detail => {
-      let speakerMatch = detail.speaker === speaker.name;
       let speech_date = detail.speech_date.slice(0, 7);
-      if (speakerMatch) {
+      if (detail.speaker === speaker.name) {
         speaker.speechs_count++;
         speaker.photo = hasPhoto(detail.speaker_img);
+
         speaker.chartData.rows = calculMonthTalks(
           speaker.chartData.rows,
           speech_date
         );
+
         all_speakers_speech_statistic.chartData.rows = calculMonthTalks(
           all_speakers_speech_statistic.chartData.rows,
           speech_date
@@ -67,13 +60,13 @@ function calculSpeakersSpeechCount(
     });
     return speaker;
   });
-  // console.log(all_speakers_speech_statistic.chartData.rows);
   return [unique_speakers_statistic, all_speakers_speech_statistic];
-  // console.log(all_speakers_speech_statistic);
 }
 
 function calculMonthTalks(chart_rows, speech_date) {
   return chart_rows.map(row => {
+    // month_speechs_count[1, 2, 3, 4, 5, 6, ]
+    // month_speechs_count[speech_date]++
     if (row.month === speech_date) {
       row.month_speechs_count++;
       return row;
@@ -83,20 +76,14 @@ function calculMonthTalks(chart_rows, speech_date) {
 }
 
 function hasPhoto(url) {
-  let hasPhoto = url.includes("imgur");
-  if (!hasPhoto) {
-    return "goodidea.png";
-  }
-  return url;
+  return url.includes("imgur") ? url : "goodidea.png";
 }
 
-function generateEveryMonthToNow() {
-  const startDate = [2017, 5];
-  let month_range = Math.abs(moment(startDate).diff(Data.now(), "months"));
+function generateRangeYYYY_MM(start, end = Date.now()) {
   let month_speechList = [];
-  for (let i = 0; i <= month_range; i++) {
+  for (let i = 0; i <= Math.abs(moment(start).diff(end, "months")); i++) {
     month_speechList.push({
-      month: moment(startDate)
+      month: moment(start)
         .add(i, "M")
         .format("YYYY-MM"),
       month_speechs_count: 0
@@ -104,3 +91,5 @@ function generateEveryMonthToNow() {
   }
   return month_speechList;
 }
+
+export { generateSpeakersSpeechList, calculSpeakersSpeechCount };

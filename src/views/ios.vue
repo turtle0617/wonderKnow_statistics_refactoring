@@ -6,7 +6,7 @@
 
 <script>
 import iosDisplay from "@/components/iosDisplay.vue";
-import { axiosURL } from "../axios";
+import API from "../axios";
 export default {
   name: "backend",
   data: function() {
@@ -15,7 +15,7 @@ export default {
     };
   },
   mounted: function() {
-    axiosURL().then(response => {
+    API.getSpeechRawData().then(response => {
       this.talks = response.data.result;
     });
   },

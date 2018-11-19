@@ -1,17 +1,18 @@
 <template>
 <div class="home">
-  <div class="all_speakers_speech_statistic">
+  <!-- <div class="all_speakers_speech_statistic">
     <h1>每月統計:</h1>
     <ve-line :data="all_speakers_speech_statistic.chartData" :data-zoom="all_speakers_dataZoom" :events="detectSliderMove()"></ve-line>
   </div>
-  <speakerDisplay v-bind:speaker_list_and_maxCount="{speaker:speaker_list,max:chartSettings}" :datazoom="speaker_dataZoom"  />
+  <speakerDisplay v-bind:speaker_list_and_maxCount="{speaker:speaker_list,max:chartSettings}" :datazoom="speaker_dataZoom"  /> -->
 </div>
 </template>
 
 <script>
 import "v-charts/lib/style.css";
 import speakerDisplay from "@/components/speakerDisplay.vue";
-import { getStatisticData } from "../axios";
+import API from "../axios";
+import { generateSpeakersSpeechList } from "../format_statistic";
 export default {
   name: "home",
   data: function() {
@@ -41,11 +42,14 @@ export default {
     };
   },
   mounted: function() {
-    getStatisticData().then(response => {
-      this.speaker_list = response[0];
-      this.all_speakers_speech_statistic = response[1];
-      this.chartSettings.max.push(this.calculSpeechMaxCount());
-    });
+    API.GET("/speech/data")
+      .then(generateSpeakersSpeechList);
+
+    // API.getStatisticData().then(response => {
+    //   this.speaker_list = response[0];
+    //   this.all_speakers_speech_statistic = response[1];
+    //   this.chartSettings.max.push(this.calculSpeechMaxCount());
+    // });
   },
   components: {
     speakerDisplay

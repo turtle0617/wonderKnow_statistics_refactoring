@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  props: ["speaker_list_and_maxCount","datazoom"],
+  props: ["speaker_list_and_maxCount", "datazoom"],
   data: function() {
     return {
       speaker_list: [],
@@ -29,7 +29,7 @@ export default {
       this.speaker_list = speaker_list_and_maxCount.speaker;
       this.chartSettings = speaker_list_and_maxCount.max;
     },
-    datazoom:function (datazoom) {
+    datazoom: function(datazoom) {
       this.speaker_list.forEach(speaker => {
         speaker.echartInit.setOption(datazoom);
       });
@@ -41,7 +41,7 @@ export default {
     },
     checkChart: function(speaker) {
       speaker.showChart = !speaker.showChart;
-    },
+    }
   }
 };
 </script>

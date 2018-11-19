@@ -6,7 +6,7 @@
 
 <script>
 import forntendDisplay from "@/components/forntendDisplay.vue";
-import { axiosURL } from "../axios";
+import API from "../axios";
 export default {
   name: "frontend",
   data: function() {
@@ -15,7 +15,7 @@ export default {
     };
   },
   mounted: function() {
-    axiosURL().then(response => {
+    API.getSpeechRawData().then(response => {
       this.talks = response.data.result;
     });
   },
