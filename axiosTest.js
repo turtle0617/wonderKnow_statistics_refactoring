@@ -63,7 +63,9 @@ function calculSpeakersSpeechCount(
         let count = "month_speechs_count";
         speaker.speechs_count++;
         speaker.photo = hasPhoto(detail.speaker_img);
-        console.log(all_speakers_speech_statistic.chartData.rows[monthSpeechIndex][count]);
+        console.log(
+          all_speakers_speech_statistic.chartData.rows[monthSpeechIndex][count]
+        );
         speaker.chartData.rows[monthSpeechIndex][count]++;
         all_speakers_speech_statistic.chartData.rows[monthSpeechIndex][count]++;
       }

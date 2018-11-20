@@ -53,7 +53,7 @@ function calculSpeakersSpeechCount(responseResult_and_speakers) {
 }
 
 function hasPhoto(url) {
-  return url.includes("imgur") ? url : process.env.BASE_URL+"goodidea.png";
+  return url.includes("imgur") ? url : process.env.BASE_URL + "goodidea.png";
 }
 
 function generateRangeYYYY_MM(start, end) {

@@ -4,7 +4,7 @@
     <h1>每月統計:</h1>
     <ve-line :data="all_speakers_speech_statistic.chartData" :data-zoom="all_speakers_dataZoom" :events="detectSliderMove()"></ve-line>
   </div>
-  <speakerDisplay v-bind:speaker_list_and_maxCount="{speaker:speaker_list,max:chartSettings}" :datazoom="speaker_dataZoom"  />
+  <speakerDisplay v-bind:speaker_list_and_maxCount="{speaker:speaker_list,max:chartSettings}" :datazoom="speaker_dataZoom" />
 </div>
 </template>
 
@@ -25,23 +25,19 @@ export default {
       chartSettings: {
         max: []
       },
-      all_speakers_dataZoom: [
-        {
-          type: "slider",
-          show: true,
-          start: 0,
-          end: 100,
-          realtime: false
-        }
-      ],
-      speaker_dataZoom: [
-        {
-          type: "slider",
-          show: false,
-          start: 0,
-          end: 100
-        }
-      ]
+      all_speakers_dataZoom: {
+        type: "slider",
+        show: true,
+        start: 0,
+        end: 100,
+        realtime: false
+      },
+      speaker_dataZoom: {
+        type: "slider",
+        show: false,
+        start: 0,
+        end: 100
+      }
     };
   },
   mounted: function() {
@@ -88,6 +84,9 @@ export default {
           }
         ]
       };
+      this.all_speakers_dataZoom.start = startPoint;
+      this.all_speakers_dataZoom.end = endPoint;
+
       this.speaker_dataZoom = changeZoom;
     }
   }
