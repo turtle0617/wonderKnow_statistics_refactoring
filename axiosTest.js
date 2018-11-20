@@ -3,17 +3,19 @@ const moment = require("moment");
 
 let url = "https://devche.com/api/speech/data";
 
-console.log(getSpeechRawData());
+getResult();
+
 function getSpeechRawData() {
   return axios.get(url).then(response => {
     return Error(response.status);
   });
 }
+
 function getResult() {
   let all_speakers_speech_statistic = {
     chartData: {
       columns: ["month", "month_talks_count"],
-      rows: generateMonthToNow()
+      rows: generateEveryMonthToNow()
     }
   };
   axios
@@ -25,9 +27,10 @@ function getResult() {
 }
 
 function generateSpeakersSpeechList(response) {
-  let repeat_speakers = response.data.result.map(result => result.speaker);
+  let repeat_speakers = response.result.map(result => result.speaker);
+  // console.log(repeat_speakers.length);
   let unique_speakers = [...new Set(repeat_speakers)].map(speaker => {
-    let month_talk_statistic = generateMonthToNow();
+    let month_talk_statistic = generateEveryMonthToNow();
     return {
       name: speaker,
       speechs_count: 0,
@@ -39,7 +42,7 @@ function generateSpeakersSpeechList(response) {
       showChart: true
     };
   });
-  return [response.data.result, unique_speakers];
+  return [response.result, unique_speakers];
 }
 
 function calculSpeakersSpeechCount(
@@ -52,35 +55,47 @@ function calculSpeakersSpeechCount(
     response_result.forEach(detail => {
       let speakerMatch = detail.speaker === speaker.name;
       let speech_date = detail.speech_date.slice(0, 7);
-      if (speakerMatch) {
+      let monthSpeechIndex = speaker.chartData.rows.findIndex(
+        row => row.month === speech_date
+      );
+
+      if (speakerMatch && !!~monthSpeechIndex) {
+        let count = "month_speechs_count";
         speaker.speechs_count++;
         speaker.photo = hasPhoto(detail.speaker_img);
-        speaker.chartData.rows = calculMonthTalks(
-          speaker.chartData.rows,
-          speech_date
-        );
-        all_speakers_speech_statistic.chartData.rows = calculMonthTalks(
-          all_speakers_speech_statistic.chartData.rows,
-          speech_date
-        );
+        console.log(all_speakers_speech_statistic.chartData.rows[monthSpeechIndex][count]);
+        speaker.chartData.rows[monthSpeechIndex][count]++;
+        all_speakers_speech_statistic.chartData.rows[monthSpeechIndex][count]++;
       }
     });
     return speaker;
   });
-  // console.log(all_speakers_speech_statistic.chartData.rows);
+  console.log(all_speakers_speech_statistic.chartData.rows);
   return [unique_speakers_statistic, all_speakers_speech_statistic];
   // console.log(all_speakers_speech_statistic);
 }
 
-function calculMonthTalks(chart_rows, speech_date) {
-  return chart_rows.map(row => {
-    if (row.month === speech_date) {
-      row.month_speechs_count++;
-      return row;
-    }
-    return row;
+function findMonthSpeechIndex(chart_rows, speech_date) {
+  return chart_rows.findIndex(row => {
+    // return row.month_speechs_count[speech_date]++
+    // console.log(row.month[speech_date]);
+    // if(row.month === speech_date){
+    //   console.log(row.month ,speech_date);
+    // }
+    return row.month === speech_date;
   });
 }
+// function calculMonthTalks(chart_rows, speech_date) {
+//   return chart_rows.map(row => {
+//     // return row.month_speechs_count[speech_date]++
+//     // console.log(row.month[speech_date]);
+//     if (row.month === speech_date) {
+//       row.month_speechs_count++;
+//       return row;
+//     }
+//     return row;
+//   });
+// }
 
 function hasPhoto(url) {
   let hasPhoto = url.includes("imgur");
@@ -91,8 +106,8 @@ function hasPhoto(url) {
 }
 
 function generateEveryMonthToNow() {
-  const startDate = [2017, 5];
-  let month_range = Math.abs(moment(startDate).diff(Data.now(), "months"));
+  const startDate = [2017, 3];
+  let month_range = Math.abs(moment(startDate).diff(Date.now(), "months"));
   let month_speechList = [];
   for (let i = 0; i <= month_range; i++) {
     month_speechList.push({

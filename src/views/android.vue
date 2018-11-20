@@ -16,8 +16,8 @@ export default {
     };
   },
   mounted: function() {
-    API.getSpeechRawData().then(response => {
-      this.talks = response.data.result;
+    API.GET("/speech/data").then(response => {
+      this.talks = response.result;
     });
   },
   components: {

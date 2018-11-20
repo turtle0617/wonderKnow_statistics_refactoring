@@ -1,12 +1,12 @@
 <template >
 <ul>
   <li v-for="( speaker, index) in speaker_list " v-bind:key="index">
-    <div class="speaker" v-on:click="checkChart(speaker)">
+    <div class="speaker" v-on:click="showChart(speaker)">
       <img v-bind:src="speaker.photo" alt=""> {{ speaker.name }}
     </div>
     <h3>總演講次數: {{speaker.speechs_count}}</h3>
     <div v-if="speaker.showChart">
-      <ve-line :data="speaker.chartData" :settings="chartSettings" :after-set-option-once="(echarts)=>getSpeakerInit(echarts,index)"></ve-line>
+      <ve-line :data="speaker.chartData" :settings="chartSettings" :after-set-option-once="(echarts)=>getSpeakerChartInit(echarts,index)"></ve-line>
     </div>
   </li>
 </ul>
@@ -36,10 +36,10 @@ export default {
     }
   },
   methods: {
-    getSpeakerInit: function(echarts, index) {
+    getSpeakerChartInit: function(echarts, index) {
       this.speaker_list[index].echartInit = echarts;
     },
-    checkChart: function(speaker) {
+    showChart: function(speaker) {
       speaker.showChart = !speaker.showChart;
     }
   }

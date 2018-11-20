@@ -1,10 +1,10 @@
 <template>
 <div class="home">
-  <!-- <div class="all_speakers_speech_statistic">
+  <div class="all_speakers_speech_statistic">
     <h1>每月統計:</h1>
     <ve-line :data="all_speakers_speech_statistic.chartData" :data-zoom="all_speakers_dataZoom" :events="detectSliderMove()"></ve-line>
   </div>
-  <speakerDisplay v-bind:speaker_list_and_maxCount="{speaker:speaker_list,max:chartSettings}" :datazoom="speaker_dataZoom"  /> -->
+  <speakerDisplay v-bind:speaker_list_and_maxCount="{speaker:speaker_list,max:chartSettings}" :datazoom="speaker_dataZoom"  />
 </div>
 </template>
 
@@ -12,7 +12,10 @@
 import "v-charts/lib/style.css";
 import speakerDisplay from "@/components/speakerDisplay.vue";
 import API from "../axios";
-import { generateSpeakersSpeechList } from "../format_statistic";
+import {
+  generateSpeakersSpeechList,
+  calculSpeakersSpeechCount
+} from "../data_statistic";
 export default {
   name: "home",
   data: function() {
@@ -43,13 +46,13 @@ export default {
   },
   mounted: function() {
     API.GET("/speech/data")
-      .then(generateSpeakersSpeechList);
-
-    // API.getStatisticData().then(response => {
-    //   this.speaker_list = response[0];
-    //   this.all_speakers_speech_statistic = response[1];
-    //   this.chartSettings.max.push(this.calculSpeechMaxCount());
-    // });
+      .then(generateSpeakersSpeechList)
+      .then(calculSpeakersSpeechCount)
+      .then(([unique_speakers_statistic, all_speakers_speech_statistic]) => {
+        this.speaker_list = unique_speakers_statistic;
+        this.all_speakers_speech_statistic = all_speakers_speech_statistic;
+        this.chartSettings.max.push(this.calculSpeechMaxCount());
+      });
   },
   components: {
     speakerDisplay
