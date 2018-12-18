@@ -49,7 +49,15 @@ function calculSpeakersSpeechCount(responseResult_and_speakers) {
     });
     return speaker;
   });
+
   return [unique_speakers_statistic, all_speakers_speech_statistic];
+}
+
+function sortBySpeechCount(speaker_list) {
+  const speaker_sort_list = speaker_list.slice();
+  return speaker_sort_list.sort((a, b) => {
+    return b.speechs_count - a.speechs_count;
+  });
 }
 
 function hasPhoto(url) {
@@ -69,4 +77,8 @@ function generateRangeYYYY_MM(start, end) {
   return month_speechList;
 }
 
-export { generateSpeakersSpeechList, calculSpeakersSpeechCount };
+export {
+  generateSpeakersSpeechList,
+  calculSpeakersSpeechCount,
+  sortBySpeechCount
+};
