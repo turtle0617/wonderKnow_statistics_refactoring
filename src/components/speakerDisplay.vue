@@ -6,7 +6,7 @@
     </div>
     <h3>總演講次數: {{speaker.speechs_count}}</h3>
     <div v-if="speaker.showChart">
-      <ve-line :data="speaker.chartData" :settings="chartSettings" :after-set-option-once="(echarts)=>getSpeakerChartInit(echarts,index)"></ve-line>
+      <ve-line :data="speaker.chartData" :settings="chartXMax" :after-set-option-once="(echarts)=>getSpeakerChartInit(echarts,index)"></ve-line>
     </div>
   </li>
 </ul>
@@ -14,24 +14,32 @@
 
 
 <script>
+import {
+  sortBySpeechCount
+} from "../data_statistic";
 export default {
-  props: ["speaker_list_and_maxCount", "datazoom"],
+  props: ["speakerList", "chartXMax", "dataZoomDuration"],
   data: function() {
     return {
       speaker_list: [],
-      chartSettings: {
-        max: []
-      }
     };
   },
   watch: {
-    speaker_list_and_maxCount: function(speaker_list_and_maxCount) {
-      this.speaker_list = speaker_list_and_maxCount.speaker;
-      this.chartSettings = speaker_list_and_maxCount.max;
+    speakerList: function(speakerList) {
+      this.speaker_list = sortBySpeechCount(speakerList);
     },
-    datazoom: function(datazoom) {
+    dataZoomDuration: function(dataZoomDuration) {
+      const speaker_option = {
+        dataZoom: [{
+          type: "slider",
+          show: false,
+          start: dataZoomDuration.start,
+          end: dataZoomDuration.end
+        }]
+      };
+      console.log(dataZoomDuration.end);
       this.speaker_list.forEach(speaker => {
-        speaker.echartInit.setOption(datazoom);
+        speaker.echartInit.setOption(speaker_option);
       });
     }
   },
