@@ -1,11 +1,20 @@
 import moment from "moment";
+const startDate = [2017, 3];
+const endDate = moment();
+const month_period = Math.abs(moment([2017, 3]).diff(endDate, "months")) + 1;
 
 function initCharDataFormat() {
-  const month_talk_statistic = generateRangeYYYY_MM([2017, 3], Date.now());
+  const month_talk_statistic = generateRangeYYYY_MM();
   return {
     columns: ["month", "month_speechs_count"],
     rows: month_talk_statistic
   };
+}
+
+function initMonthlyOfSpeechCount() {
+  const arr = new Array(month_period).fill(0)
+  return arr;
+  // return new Array(month_period).fill(0);
 }
 
 function generateSpeakersSpeechList(response) {
@@ -14,6 +23,7 @@ function generateSpeakersSpeechList(response) {
     return {
       name: speaker,
       speechs_count: 0,
+      monthly_of_speech_count: initMonthlyOfSpeechCount().slice(),
       photo: "",
       chartData: initCharDataFormat(),
       showChart: true
@@ -42,7 +52,7 @@ function calculSpeakersSpeechCount(responseResult_and_speakers) {
         const count = "month_speechs_count";
         speaker.speechs_count++;
         speaker.photo = hasPhoto(detail.speaker_img);
-
+        speaker.monthly_of_speech_count[monthSpeechIndex] += 1;
         speaker.chartData.rows[monthSpeechIndex][count]++;
         all_speakers_speech_statistic.chartData.rows[monthSpeechIndex][count]++;
       }
@@ -64,11 +74,11 @@ function hasPhoto(url) {
   return url.includes("imgur") ? url : process.env.BASE_URL + "goodidea.png";
 }
 
-function generateRangeYYYY_MM(start, end) {
+function generateRangeYYYY_MM() {
   const month_speechList = [];
-  for (let i = 0; i <= Math.abs(moment(start).diff(end, "months")); i++) {
+  for (let i = 0; i < month_period; i++) {
     month_speechList.push({
-      month: moment(start)
+      month: moment(startDate)
         .add(i, "M")
         .format("YYYY-MM"),
       month_speechs_count: 0
