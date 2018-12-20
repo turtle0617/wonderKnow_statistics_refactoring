@@ -18,29 +18,29 @@
 
 <script>
 export default {
-  props: ["talks"],
+  props: ['talks'],
   methods: {
-    isFrontend: function(item) {
-      const frontEndCondition = ["Front-end", "CSS", "HTML", "Vue"];
-      let photo = item.speaker_img;
-      item.speaker_img = this.checkPhoto(photo);
-      return frontEndCondition.includes(item.class);
+    isFrontend: function (item) {
+      const frontEndCondition = ['Front-end', 'CSS', 'HTML', 'Vue']
+      let photo = item.speaker_img
+      item.speaker_img = this.checkPhoto(photo)
+      return frontEndCondition.includes(item.class)
     },
-    checkPhoto: function(photo) {
-      let hasPhoto = photo.includes("imgur");
+    checkPhoto: function (photo) {
+      let hasPhoto = photo.includes('imgur')
       if (!hasPhoto) {
-        photo = "/goodidea.png";
-        return photo;
+        photo = '/goodidea.png'
+        return photo
       }
-      return photo;
+      return photo
     }
   },
   computed: {
-    frontendTalks: function() {
-      let frontendTalks = this.talks.filter(this.isFrontend);
+    frontendTalks: function () {
+      let frontendTalks = this.talks.filter(this.isFrontend)
       // let frontendTalks = this.talks.filter(data => isFrontend(data));
-      return frontendTalks.reverse();
+      return frontendTalks.reverse()
     }
   }
-};
+}
 </script>

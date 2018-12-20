@@ -6,13 +6,13 @@
 
 <script>
 // @ is an alias to /src
-import axios from "axios";
-let url = "https://devche.com/api/speech/data";
+import axios from 'axios'
+let url = 'https://devche.com/api/speech/data'
 export default {
-  created: function() {
+  created: function () {
     axios.get(url).then(response => {
-      this.$emit("send-datas", response.result);
-    });
+      this.$emit('send-datas', response.result)
+    })
   }
-};
+}
 </script>

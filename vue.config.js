@@ -1,9 +1,9 @@
 module.exports = {
   baseUrl:
-    process.env.NODE_ENV === "production"
-      ? "/wonderKnow_statistics_refactoring/"
-      : "/",
-  outputDir: "docs",
+    process.env.NODE_ENV === 'production'
+      ? '/wonderKnow_statistics_refactoring/'
+      : '/',
+  outputDir: 'docs'
   // chainWebpack: config => {
   //   // GraphQL Loader
   //   config.module
@@ -13,4 +13,4 @@ module.exports = {
   //       .loader('babel-loader')
   //       .end()
   // }
-};
+}

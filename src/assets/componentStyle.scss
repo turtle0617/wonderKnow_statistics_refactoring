@@ -5,28 +5,30 @@
   text-align: center;
   color: #2c3e50;
 }
+
 #nav {
   padding: 30px;
+
   a {
     font-weight: bold;
     color: #2c3e50;
+
     &.router-link-exact-active {
       color: #42b983;
     }
   }
 }
-.all_speakers_speech_statistic{
+
+.all_speakers_speech_statistic {
   width: 75%;
   margin: 0 auto;
   text-align: left;
 }
-.home > ul{
+
+.home > ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  li{
-    flex-basis: 45%;
-  }
 }
 
 h3 {
@@ -42,6 +44,7 @@ li {
   text-align: left;
   padding: 10px 20px;
   margin: 10px;
+  width: 400px;
   background-color: #E8F3F6;
 }
 
@@ -66,6 +69,7 @@ li > label {
   align-items: center;
   font-size: 25px;
   flex-basis: 15%;
+  cursor: pointer;
 }
 
 .speaker > img {
@@ -84,9 +88,12 @@ a {
   color: #42b983;
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+/* .fade-leave-active below version 2.1.8 */
+.fade-enter,
+.fade-leave-to {
   opacity: 0;
 }

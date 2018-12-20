@@ -9,25 +9,25 @@
 </template>
 
 <script>
-import "v-charts/lib/style.css";
-import speakerDisplay from "@/components/speakerDisplay.vue";
-import API from "../axios";
+import 'v-charts/lib/style.css'
+import speakerDisplay from '@/components/speakerDisplay.vue'
+import API from '../axios'
 import {
   generateSpeakersSpeechList,
   calculSpeakersSpeechCount
-} from "../data_statistic";
+} from '../data_statistic'
 export default {
-  name: "home",
-  data: function() {
+  name: 'home',
+  data: function () {
     return {
-      all_speakers_chartInit: "",
+      all_speakers_chartInit: '',
       speaker_list: [],
       all_speakers_speech_statistic: [],
       chartSettings: {
         max: []
       },
       all_speakers_dataZoom: {
-        type: "slider",
+        type: 'slider',
         show: true,
         start: 0,
         end: 100,
@@ -39,54 +39,54 @@ export default {
         startIndex: 0,
         endIndex: 0
       }
-    };
+    }
   },
-  mounted: function() {
-    API.GET("/speech/data")
+  mounted: function () {
+    API.GET('/speech/data')
       .then(generateSpeakersSpeechList)
       .then(calculSpeakersSpeechCount)
       .then(([unique_speakers_statistic, all_speakers_speech_statistic]) => {
-        this.speaker_list = unique_speakers_statistic;
-        this.all_speakers_speech_statistic = all_speakers_speech_statistic;
-        this.chartSettings.max.push(this.calculSpeechMaxCount());
-      });
+        this.speaker_list = unique_speakers_statistic
+        this.all_speakers_speech_statistic = all_speakers_speech_statistic
+        this.chartSettings.max.push(this.calculSpeechMaxCount())
+      })
   },
   components: {
     speakerDisplay
   },
   methods: {
-    calculSpeechMaxCount: function() {
+    calculSpeechMaxCount: function () {
       let speech_count_list = this.all_speakers_speech_statistic.chartData.rows.map(
         month => {
-          return month.month_speechs_count;
+          return month.month_speechs_count
         }
-      );
-      let max_count = speech_count_list.reduce(function(oldNum, newNum) {
-        return Math.max(oldNum, newNum);
-      });
-      return max_count;
+      )
+      let max_count = speech_count_list.reduce(function (oldNum, newNum) {
+        return Math.max(oldNum, newNum)
+      })
+      return max_count
     },
-    detectSliderMove: function() {
-      let self = this;
+    detectSliderMove: function () {
+      let self = this
       return {
-        datazoom: function(e) {
-          self.updateSpeakerZoom(e.start, e.end);
+        datazoom: function (e) {
+          self.updateSpeakerZoom(e.start, e.end)
         }
-      };
+      }
     },
-    updateSpeakerZoom: function(startPoint, endPoint) {
-      const xAxis = this.all_speakers_chartInit.getOption().xAxis[0];
+    updateSpeakerZoom: function (startPoint, endPoint) {
+      const xAxis = this.all_speakers_chartInit.getOption().xAxis[0]
       const duration = {
         start: Number(startPoint.toFixed(2)),
         end: Number(endPoint.toFixed(2)),
         startIndex: xAxis.rangeStart,
         endIndex: xAxis.rangeEnd
-      };
-      this.dataZoom_duration = duration;
+      }
+      this.dataZoom_duration = duration
     },
-    getChartInit: function(echart) {
-      this.all_speakers_chartInit = echart;
+    getChartInit: function (echart) {
+      this.all_speakers_chartInit = echart
     }
   }
-};
+}
 </script>

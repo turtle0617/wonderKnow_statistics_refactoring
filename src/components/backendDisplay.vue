@@ -18,37 +18,37 @@
 
 <script>
 export default {
-  props: ["talks"],
+  props: ['talks'],
   methods: {
-    isBackend: function(item) {
+    isBackend: function (item) {
       const backEndCondition = [
-        "Backend-end",
-        "backend-end",
-        "Security",
-        "NodeJS"
-      ];
-      let photo = item.speaker_img;
-      item.speaker_img = this.checkPhoto(photo);
-      return backEndCondition.includes(item.class);
+        'Backend-end',
+        'backend-end',
+        'Security',
+        'NodeJS'
+      ]
+      let photo = item.speaker_img
+      item.speaker_img = this.checkPhoto(photo)
+      return backEndCondition.includes(item.class)
     },
-    checkPhoto: function(photo) {
-      let hasPhoto = photo.includes("imgur");
+    checkPhoto: function (photo) {
+      let hasPhoto = photo.includes('imgur')
       if (!hasPhoto) {
-        photo = "/goodidea.png";
-        return photo;
+        photo = '/goodidea.png'
+        return photo
       }
-      return photo;
+      return photo
     }
   },
   computed: {
-    backendTalks: function() {
+    backendTalks: function () {
       // let arr = this.talks.map(talk => talk.speaker_img)
       // return arr;
-      let backendTalks = this.talks.filter(this.isBackend);
-      return backendTalks.reverse();
+      let backendTalks = this.talks.filter(this.isBackend)
+      return backendTalks.reverse()
     }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

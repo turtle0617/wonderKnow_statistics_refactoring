@@ -18,32 +18,32 @@
 
 <script>
 export default {
-  props: ["talks"],
+  props: ['talks'],
   methods: {
-    isAndroid: function(item) {
-      const androidCondition = ["Android"];
-      let photo = item.speaker_img;
-      item.speaker_img = this.checkPhoto(photo);
-      return androidCondition.includes(item.class);
+    isAndroid: function (item) {
+      const androidCondition = ['Android']
+      let photo = item.speaker_img
+      item.speaker_img = this.checkPhoto(photo)
+      return androidCondition.includes(item.class)
     },
-    checkPhoto: function(photo) {
-      let hasPhoto = photo.includes("imgur");
+    checkPhoto: function (photo) {
+      let hasPhoto = photo.includes('imgur')
       if (!hasPhoto) {
-        photo = "/goodidea.png";
-        return photo;
+        photo = '/goodidea.png'
+        return photo
       }
-      return photo;
+      return photo
     }
   },
   computed: {
-    androidTalks: function() {
+    androidTalks: function () {
       // let arr = this.talks.map(talk => talk.speaker_img)
       // return arr;
-      let androidTalks = this.talks.filter(this.isAndroid);
-      return androidTalks.reverse();
+      let androidTalks = this.talks.filter(this.isAndroid)
+      return androidTalks.reverse()
     }
   }
-};
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
