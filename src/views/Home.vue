@@ -36,9 +36,9 @@ export default {
       dataZoom_duration: {
         start: 0,
         end: 100,
-        startIndex:0,
-        endIndex:0
-      },
+        startIndex: 0,
+        endIndex: 0
+      }
     };
   },
   mounted: function() {
@@ -49,7 +49,6 @@ export default {
         this.speaker_list = unique_speakers_statistic;
         this.all_speakers_speech_statistic = all_speakers_speech_statistic;
         this.chartSettings.max.push(this.calculSpeechMaxCount());
-
       });
   },
   components: {

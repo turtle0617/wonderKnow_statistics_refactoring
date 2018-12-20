@@ -12,7 +12,7 @@ function initCharDataFormat() {
 }
 
 function initMonthlyOfSpeechCount() {
-  const arr = new Array(month_period).fill(0)
+  const arr = new Array(month_period).fill(0);
   return arr;
   // return new Array(month_period).fill(0);
 }
