@@ -82,6 +82,8 @@ export default {
         startIndex: xAxis.rangeStart,
         endIndex: xAxis.rangeEnd
       }
+      this.all_speakers_dataZoom.start = startPoint;
+      this.all_speakers_dataZoom.end = endPoint;
       this.dataZoom_duration = duration
     },
     getChartInit: function (echart) {

@@ -1,7 +1,7 @@
 <template >
 <ul v-masonry item-selector=".item">
   <template v-for="speaker in speaker_list">
-    <li v-masonry-tile class="item"  fit-width="true" v-if="speaker.speechs_count>0" v-bind:key="speaker">
+    <li v-masonry-tile class="item"  fit-width="true" v-if="speaker.speechs_count>0" v-bind:key="speaker.name">
       <div class="speaker" v-on:click="showChart(speaker)">
         <img v-bind:src="speaker.photo" alt=""> {{ speaker.name }}
       </div>
@@ -60,13 +60,9 @@ export default {
   methods: {
     showChart: function (speaker) {
       speaker.showChart = !speaker.showChart
-      // this.nextTick(()=>{
       this.$nextTick(function () {
-        console.log('hi')
         this.$redrawVueMasonry()
       })
-
-      // })
     },
     calculMonthPeriodSpeechCount: function (speaker, startIndex, endIndex) {
       return speaker.monthly_of_speech_count.reduce(function (
