@@ -1,9 +1,9 @@
 <template>
 <ul>
-  <li v-for="(talk,index) in backendTalks" v-bind:key="index">
+  <li class="talk" v-for="(talk,index) in backendTalks" v-bind:key="index">
     <h1>主題：{{talk.title}}</h1>
-    <div class="talk">
-      <div class="speaker">
+    <div class="talk_title">
+      <div class="speaker_name">
         <img v-bind:src="talk.speaker_img" alt="">
         <span>{{talk.speaker}}</span>
       </div>

@@ -1,8 +1,8 @@
 <template >
-<ul v-masonry item-selector=".item">
+<ul class="speakers_container" v-masonry gutter="20" fit-width="true" item-selector=".speaker">
   <template v-for="speaker in speaker_list">
-    <li v-masonry-tile class="item"  fit-width="true" v-if="speaker.speechs_count>0" v-bind:key="speaker.name">
-      <div class="speaker" v-on:click="showChart(speaker)">
+    <li v-masonry-tile class="speaker"  v-if="speaker.speechs_count>0" v-bind:key="speaker.name">
+      <div class="speaker_name" v-on:click="showChart(speaker)">
         <img v-bind:src="speaker.photo" alt=""> {{ speaker.name }}
       </div>
       <h3>總演講次數: {{speaker.speechs_count}}</h3>
