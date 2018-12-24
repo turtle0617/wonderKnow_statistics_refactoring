@@ -1,7 +1,7 @@
 <template>
 <ul>
   <li class="talk" v-for="(talk,index) in iosTalks" v-bind:key="index">
-    <h1>主題：{{talk.title}}</h1>
+    <h1>{{talk.title}}</h1>
     <div class="talk_title">
       <div class="speaker_name">
         <img v-bind:src="talk.speaker_img" alt="">
