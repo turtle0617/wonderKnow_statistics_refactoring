@@ -48,7 +48,6 @@ export default {
       }
       this.speaker_dataZoom = speaker_option;
       this.speaker_list.forEach(speaker => {
-        console.log(speaker);
         speaker.speeches_count = calculMonthPeriodSpeechCount(
           speaker,
           startIndex,
