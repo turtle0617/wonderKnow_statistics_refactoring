@@ -17,7 +17,8 @@
 
 <script>
 import {
-  sortBySpeechCount
+  sortBySpeechCount,
+  calculMonthPeriodSpeechCount
 } from '../data_statistic'
 export default {
   props: ['speakerList', 'chartXMax', 'dataZoomDuration'],
@@ -45,9 +46,9 @@ export default {
         start: dataZoomDuration.start,
         end: dataZoomDuration.end
       }
-      this.speaker_dataZoom = speaker_option
+      this.speaker_dataZoom = speaker_option;
       this.speaker_list.forEach(speaker => {
-        speaker.speechs_count = this.calculMonthPeriodSpeechCount(
+        speaker.speechs_count = calculMonthPeriodSpeechCount(
           speaker,
           startIndex,
           endIndex
@@ -63,17 +64,6 @@ export default {
       this.$nextTick(function () {
         this.$redrawVueMasonry()
       })
-    },
-    calculMonthPeriodSpeechCount: function (speaker, startIndex, endIndex) {
-      return speaker.monthly_of_speech_count.reduce(function (
-        accumulator,
-        currentValue,
-        index
-      ) {
-        if (index < startIndex || index > endIndex) return accumulator
-        return (accumulator += currentValue)
-      },
-      0)
     }
   }
 }

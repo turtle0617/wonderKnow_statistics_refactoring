@@ -2,6 +2,7 @@
 <div class="home">
   <div class="all_speakers_speech_statistic">
     <h1>每月統計:</h1>
+    <h1>總演講次數:</h1>
     <ve-line :after-set-option-once="getChartInit"  :data="all_speakers_speech_statistic.chartData" :data-zoom="all_speakers_dataZoom" :events="detectSliderMove()"></ve-line>
   </div>
   <speakerDisplay :speakerList="speaker_list" :chartXMax="chartSettings" :dataZoomDuration="dataZoom_duration"/>
@@ -23,6 +24,7 @@ export default {
       all_speakers_chartInit: '',
       speaker_list: [],
       all_speakers_speech_statistic: [],
+      chartRowEndIndex: null,
       chartSettings: {
         max: []
       },
@@ -46,9 +48,10 @@ export default {
       .then(generateSpeakersSpeechList)
       .then(calculSpeakersSpeechCount)
       .then(([unique_speakers_statistic, all_speakers_speech_statistic]) => {
-        this.speaker_list = unique_speakers_statistic
-        this.all_speakers_speech_statistic = all_speakers_speech_statistic
-        this.chartSettings.max.push(this.calculSpeechMaxCount())
+        this.speaker_list = unique_speakers_statistic;
+        this.all_speakers_speech_statistic = all_speakers_speech_statistic;
+        this.chartRowEndIndex = all_speakers_speech_statistic.chartData.rows.length - 1;
+        this.chartSettings.max.push(this.calculSpeechMaxCount());
       })
   },
   components: {
@@ -75,12 +78,12 @@ export default {
       }
     },
     updateSpeakerZoom: function (startPoint, endPoint) {
-      const xAxis = this.all_speakers_chartInit.getOption().xAxis[0]
+      const xAxis = this.all_speakers_chartInit.getOption().xAxis[0];
       const duration = {
         start: Number(startPoint.toFixed(2)),
         end: Number(endPoint.toFixed(2)),
-        startIndex: xAxis.rangeStart,
-        endIndex: xAxis.rangeEnd
+        startIndex: xAxis.rangeStart || 0, // 超出 datazoom 範圍時會吐 null，防止崩潰用
+        endIndex: xAxis.rangeEnd || this.chartRowEndIndex
       }
       this.all_speakers_dataZoom.start = startPoint;
       this.all_speakers_dataZoom.end = endPoint;

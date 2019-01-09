@@ -12,9 +12,7 @@ function initCharDataFormat () {
 }
 
 function initMonthlyOfSpeechCount () {
-  const arr = new Array(month_period).fill(0)
-  return arr
-  // return new Array(month_period).fill(0);
+  return new Array(month_period).fill(0);
 }
 
 function generateSpeakersSpeechList (response) {
@@ -33,6 +31,18 @@ function generateSpeakersSpeechList (response) {
     chartData: initCharDataFormat()
   }
   return [response.result, unique_speakers, all_speakers_speech_statistic]
+}
+
+function calculMonthPeriodSpeechCount (speaker, startIndex, endIndex) {
+  return speaker.monthly_of_speech_count.reduce(function (
+    accumulator,
+    currentValue,
+    index
+  ) {
+    if (index < startIndex || index > endIndex) return accumulator
+    return (accumulator += currentValue)
+  },
+  0)
 }
 
 function calculSpeakersSpeechCount (responseResult_and_speakers) {
@@ -90,5 +100,6 @@ function generateRangeYYYY_MM () {
 export {
   generateSpeakersSpeechList,
   calculSpeakersSpeechCount,
+  calculMonthPeriodSpeechCount,
   sortBySpeechCount
 }
