@@ -24,6 +24,7 @@ function generateSpeakersSpeechList (response) {
       monthly_of_speech_count: initMonthlyOfSpeechCount().slice(),
       photo: '',
       chartData: initCharDataFormat(),
+      speech_list: [],
       showChart: false
     }
   })
@@ -66,11 +67,17 @@ function calculSpeakersSpeechCount (responseResult_and_speakers) {
         speaker.photo = hasPhoto(detail.speaker_img);
         speaker.monthly_of_speech_count[monthSpeechIndex] += 1;
         speaker.chartData.rows[monthSpeechIndex][count] += 1;
+        speaker.speech_list.push({
+          date: detail.speech_date,
+          camp: detail.class,
+          title: detail.title
+        })
         all_speakers_speech_statistic.speeches_count += 1;
         all_speakers_speech_statistic.monthly_of_speech_count[monthSpeechIndex] += 1;
         all_speakers_speech_statistic.chartData.rows[monthSpeechIndex][count] += 1;
       }
-    })
+    });
+    speaker.speech_list = sortBySpeechDate(speaker.speech_list);
     return speaker
   })
 
@@ -81,6 +88,18 @@ function sortBySpeechCount (speaker_list) {
   const speaker_sort_list = speaker_list.slice()
   return speaker_sort_list.sort((a, b) => {
     return b.speeches_count - a.speeches_count
+  })
+}
+
+function sortBySpeechDate (speech_list) {
+  const speech_sort_list = speech_list.slice()
+  return speech_sort_list.sort((a, b) => {
+    if (a.date > b.date) {
+      return 1
+    } else if (a.date === b.date) {
+      return 0
+    }
+    return -1
   })
 }
 

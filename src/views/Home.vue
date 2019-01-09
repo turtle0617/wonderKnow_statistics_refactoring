@@ -79,12 +79,17 @@ export default {
     },
     updateSpeakerZoom: function (startPoint, endPoint) {
       const xAxis = this.all_speakers_chartInit.getOption().xAxis[0];
+      const startIndex = xAxis.rangeStart || 0; // 超出 datazoom 範圍時會吐 null，防止崩潰用
+      const endIndex = xAxis.rangeEnd || this.chartRowEndIndex
       const duration = {
         start: Number(startPoint.toFixed(2)),
         end: Number(endPoint.toFixed(2)),
-        startIndex: xAxis.rangeStart || 0, // 超出 datazoom 範圍時會吐 null，防止崩潰用
-        endIndex: xAxis.rangeEnd || this.chartRowEndIndex
+        startIndex: startIndex,
+        endIndex: endIndex,
+        startMonth: xAxis.data[startIndex],
+        endMonth: xAxis.data[endIndex]
       }
+      console.log(duration.startMonth, duration.endMonth);
       this.all_speakers_dataZoom.start = startPoint;
       this.all_speakers_dataZoom.end = endPoint;
       this.all_speakers_speech_statistic.speeches_count = calculMonthPeriodSpeechCount(

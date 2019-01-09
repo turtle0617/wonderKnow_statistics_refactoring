@@ -9,6 +9,15 @@
       <div class="speaker_chart" v-if="speaker.showChart">
           <ve-line  :data="speaker.chartData" :data-zoom="speaker_dataZoom" :settings="chartXMax" ></ve-line>
       </div>
+      <ul class="speaker_speechList" v-if="speaker.showChart">
+        <template v-for="speech in calculSpeechListRange(speaker.speech_list)" >
+          <li v-bind:key="speech.date">
+            <!-- {{speech.date}} -->
+            {{speech.camp}}
+            {{speech.title}}
+          </li>
+        </template>
+      </ul>
     </li>
   </template>
 
@@ -19,12 +28,15 @@
 import {
   sortBySpeechCount,
   calculMonthPeriodSpeechCount
-} from '../data_statistic'
+} from '../data_statistic';
+import moment from 'moment';
 export default {
   props: ['speakerList', 'chartXMax', 'dataZoomDuration'],
   data: function () {
     return {
       speaker_list: null,
+      startMonth: [2017, 3],
+      endMonth: moment(),
       speaker_dataZoom: {
         type: 'slider',
         show: false,
@@ -35,7 +47,7 @@ export default {
   },
   watch: {
     speakerList: function (speakerList) {
-      this.speaker_list = sortBySpeechCount(speakerList)
+      this.speaker_list = sortBySpeechCount(speakerList);
     },
     dataZoomDuration: function (dataZoomDuration) {
       const startIndex = dataZoomDuration.startIndex
@@ -47,6 +59,9 @@ export default {
         end: dataZoomDuration.end
       }
       this.speaker_dataZoom = speaker_option;
+      this.startMonth = dataZoomDuration.startMonth;
+      this.endMonth = dataZoomDuration.endMonth;
+
       this.speaker_list.forEach(speaker => {
         speaker.speeches_count = calculMonthPeriodSpeechCount(
           speaker,
@@ -64,6 +79,11 @@ export default {
       this.$nextTick(function () {
         this.$redrawVueMasonry()
       })
+    },
+    calculSpeechListRange: function (list, startMonth = this.startMonth, endMonth = this.endMonth) {
+      return list.filter(item => {
+        return moment(item.date).isBetween(startMonth, endMonth, 'month', '[]')
+      });
     }
   }
 }
