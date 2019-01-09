@@ -1,8 +1,7 @@
 <template>
-<div class="home">
-  <div class="all_speakers_speech_statistic">
-    <h1>每月統計:</h1>
-    <h1>總演講次數:</h1>
+<div class="home" >
+  <div v-if="!!all_speakers_speech_statistic" class="all_speakers_speech_statistic">
+    <h1>總演講次數 : {{all_speakers_speech_statistic.speeches_count}}</h1>
     <ve-line :after-set-option-once="getChartInit"  :data="all_speakers_speech_statistic.chartData" :data-zoom="all_speakers_dataZoom" :events="detectSliderMove()"></ve-line>
   </div>
   <speakerDisplay :speakerList="speaker_list" :chartXMax="chartSettings" :dataZoomDuration="dataZoom_duration"/>
@@ -15,7 +14,8 @@ import speakerDisplay from '@/components/speakerDisplay.vue'
 import API from '../axios'
 import {
   generateSpeakersSpeechList,
-  calculSpeakersSpeechCount
+  calculSpeakersSpeechCount,
+  calculMonthPeriodSpeechCount
 } from '../data_statistic'
 export default {
   name: 'home',
@@ -23,7 +23,7 @@ export default {
     return {
       all_speakers_chartInit: '',
       speaker_list: [],
-      all_speakers_speech_statistic: [],
+      all_speakers_speech_statistic: null,
       chartRowEndIndex: null,
       chartSettings: {
         max: []
@@ -43,7 +43,7 @@ export default {
       }
     }
   },
-  mounted: function () {
+  created: function () {
     API.GET('/speech/data')
       .then(generateSpeakersSpeechList)
       .then(calculSpeakersSpeechCount)
@@ -61,7 +61,7 @@ export default {
     calculSpeechMaxCount: function () {
       let speech_count_list = this.all_speakers_speech_statistic.chartData.rows.map(
         month => {
-          return month.month_speechs_count
+          return month.month_speeches_count
         }
       )
       let max_count = speech_count_list.reduce(function (oldNum, newNum) {
@@ -87,6 +87,11 @@ export default {
       }
       this.all_speakers_dataZoom.start = startPoint;
       this.all_speakers_dataZoom.end = endPoint;
+      this.all_speakers_speech_statistic.speeches_count = calculMonthPeriodSpeechCount(
+        this.all_speakers_speech_statistic,
+        duration.startIndex,
+        duration.endIndex
+      )
       this.dataZoom_duration = duration
     },
     getChartInit: function (echart) {

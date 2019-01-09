@@ -1,11 +1,11 @@
 <template >
-<ul class="speakers_container" v-masonry gutter="20" fit-width="true" item-selector=".speaker">
+<ul v-if="!!speaker_list" class="speakers_container" v-masonry gutter="20" fit-width="true" item-selector=".speaker">
   <template v-for="speaker in speaker_list">
-    <li v-masonry-tile class="speaker" column-width=".speaker" v-if="speaker.speechs_count>0" v-bind:key="speaker.name">
+    <li v-masonry-tile class="speaker" column-width=".speaker" v-if="speaker.speeches_count>0" v-bind:key="speaker.name">
       <div class="speaker_name" v-on:click="showChart(speaker)">
         <img v-bind:src="speaker.photo" alt=""> {{ speaker.name }}
       </div>
-      <h3>總演講次數: {{speaker.speechs_count}}</h3>
+      <h3>總演講次數: {{speaker.speeches_count}}</h3>
       <div class="speaker_chart" v-if="speaker.showChart">
           <ve-line  :data="speaker.chartData" :data-zoom="speaker_dataZoom" :settings="chartXMax" ></ve-line>
       </div>
@@ -24,7 +24,7 @@ export default {
   props: ['speakerList', 'chartXMax', 'dataZoomDuration'],
   data: function () {
     return {
-      speaker_list: [],
+      speaker_list: null,
       speaker_dataZoom: {
         type: 'slider',
         show: false,
@@ -48,7 +48,8 @@ export default {
       }
       this.speaker_dataZoom = speaker_option;
       this.speaker_list.forEach(speaker => {
-        speaker.speechs_count = calculMonthPeriodSpeechCount(
+        console.log(speaker);
+        speaker.speeches_count = calculMonthPeriodSpeechCount(
           speaker,
           startIndex,
           endIndex

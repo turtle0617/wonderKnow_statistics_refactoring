@@ -32,10 +32,10 @@
 //     let month_talk_statistic = generateEveryMonthToNow();
 //     return {
 //       name: speaker,
-//       speechs_count: 0,
+//       speeches_count: 0,
 //       photo: "",
 //       chartData: {
-//         columns: ["month", "month_speechs_count"],
+//         columns: ["month", "month_speeches_count"],
 //         rows: month_talk_statistic
 //       },
 //       showChart: true
@@ -59,8 +59,8 @@
 //       );
 //
 //       if (speakerMatch && !!~monthSpeechIndex) {
-//         let count = "month_speechs_count";
-//         speaker.speechs_count++;
+//         let count = "month_speeches_count";
+//         speaker.speeches_count++;
 //         speaker.photo = hasPhoto(detail.speaker_img);
 //         speaker.chartData.rows[monthSpeechIndex][count]++;
 //         all_speakers_speech_statistic.chartData.rows[monthSpeechIndex][count]++;
@@ -73,7 +73,7 @@
 //
 // function findMonthSpeechIndex(chart_rows, speech_date) {
 //   return chart_rows.findIndex(row => {
-//     // return row.month_speechs_count[speech_date]++
+//     // return row.month_speeches_count[speech_date]++
 //     // if(row.month === speech_date){
 //     // }
 //     return row.month === speech_date;
@@ -81,9 +81,9 @@
 // }
 // // function calculMonthTalks(chart_rows, speech_date) {
 // //   return chart_rows.map(row => {
-// //     // return row.month_speechs_count[speech_date]++
+// //     // return row.month_speeches_count[speech_date]++
 // //     if (row.month === speech_date) {
-// //       row.month_speechs_count++;
+// //       row.month_speeches_count++;
 // //       return row;
 // //     }
 // //     return row;
@@ -107,7 +107,7 @@
 //       month: moment(startDate)
 //         .add(i, "M")
 //         .format("YYYY-MM"),
-//       month_speechs_count: 0
+//       month_speeches_count: 0
 //     });
 //   }
 //   return month_speechList;

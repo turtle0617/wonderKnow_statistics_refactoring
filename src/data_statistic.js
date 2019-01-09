@@ -6,7 +6,7 @@ const month_period = Math.abs(moment([2017, 3]).diff(endDate, 'months')) + 1
 function initCharDataFormat () {
   const month_talk_statistic = generateRangeYYYY_MM()
   return {
-    columns: ['month', 'month_speechs_count'],
+    columns: ['month', 'month_speeches_count'],
     rows: month_talk_statistic
   }
 }
@@ -20,7 +20,7 @@ function generateSpeakersSpeechList (response) {
   const unique_speakers = [...new Set(repeat_speakers)].map(speaker => {
     return {
       name: speaker,
-      speechs_count: 0,
+      speeches_count: 0,
       monthly_of_speech_count: initMonthlyOfSpeechCount().slice(),
       photo: '',
       chartData: initCharDataFormat(),
@@ -28,6 +28,8 @@ function generateSpeakersSpeechList (response) {
     }
   })
   const all_speakers_speech_statistic = {
+    speeches_count: 0,
+    monthly_of_speech_count: initMonthlyOfSpeechCount().slice(),
     chartData: initCharDataFormat()
   }
   return [response.result, unique_speakers, all_speakers_speech_statistic]
@@ -59,12 +61,14 @@ function calculSpeakersSpeechCount (responseResult_and_speakers) {
       )
 
       if (speakerMatch && !!~monthSpeechIndex) {
-        const count = 'month_speechs_count'
-        speaker.speechs_count++
-        speaker.photo = hasPhoto(detail.speaker_img)
-        speaker.monthly_of_speech_count[monthSpeechIndex] += 1
-        speaker.chartData.rows[monthSpeechIndex][count]++
-        all_speakers_speech_statistic.chartData.rows[monthSpeechIndex][count]++
+        const count = 'month_speeches_count'
+        speaker.speeches_count += 1;
+        speaker.photo = hasPhoto(detail.speaker_img);
+        speaker.monthly_of_speech_count[monthSpeechIndex] += 1;
+        speaker.chartData.rows[monthSpeechIndex][count] += 1;
+        all_speakers_speech_statistic.speeches_count += 1;
+        all_speakers_speech_statistic.monthly_of_speech_count[monthSpeechIndex] += 1;
+        all_speakers_speech_statistic.chartData.rows[monthSpeechIndex][count] += 1;
       }
     })
     return speaker
@@ -76,7 +80,7 @@ function calculSpeakersSpeechCount (responseResult_and_speakers) {
 function sortBySpeechCount (speaker_list) {
   const speaker_sort_list = speaker_list.slice()
   return speaker_sort_list.sort((a, b) => {
-    return b.speechs_count - a.speechs_count
+    return b.speeches_count - a.speeches_count
   })
 }
 
@@ -91,7 +95,7 @@ function generateRangeYYYY_MM () {
       month: moment(startDate)
         .add(i, 'M')
         .format('YYYY-MM'),
-      month_speechs_count: 0
+      month_speeches_count: 0
     })
   }
   return month_speechList
