@@ -127,43 +127,17 @@ li > label {
   margin-top: 5px;
   border-radius: 5px;
   position: relative;
-  padding: 1.5rem 2rem;
+  padding: .5rem 1rem;
   &--camp{
     display: inline-block;
-    position: absolute;
-    // top: 9%;
-    // left: 5%;
-    bottom: 10%;
-    right: 5%;
     font-size: 0.7125rem;
-    // border-radius: 50%;
-    // border: 1px solid lightgray;
-    // box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
     font-weight: 700;
-    span{
-      // position: absolute;
-      // top: 50%;
-      // left: 50%;
-      // transform: translate(-50%,-50%);
-    }
+    color: #898986;
   }
   &--title{
-    font-size: 0.875rem;
+    font-size: 1rem;
+    font-weight: 600;
     color: rgba(112, 113, 114,1);
-  }
-}
-.camp{
-  &--web{
-    color: #3f51b5;
-  }
-  &--backend{
-    color: #c9586b;
-  }
-  &--android{
-    color: #673ab7;
-  }
-  &--ios{
-    color: #673ab7;
   }
 }
 .Summary {
