@@ -1,27 +1,32 @@
 <template >
-<ul v-if="!!speaker_list" class="speakers_container" v-masonry gutter="20" fit-width="true" item-selector=".speaker">
-  <template v-for="speaker in speaker_list">
-    <li v-masonry-tile class="speaker" column-width=".speaker" v-if="speaker.speeches_count>0" v-bind:key="speaker.name">
-      <div class="speaker_name" v-on:click="showChart(speaker)">
-        <img v-bind:src="speaker.photo" alt=""> {{ speaker.name }}
-      </div>
-      <h3>總演講次數: {{speaker.speeches_count}}</h3>
-      <div class="speaker_chart" v-if="speaker.showChart">
-          <ve-line  :data="speaker.chartData" :data-zoom="speaker_dataZoom" :settings="chartXMax" ></ve-line>
-      </div>
-      <ul class="speaker_speechList" v-if="speaker.showChart">
-        <template v-for="speech in calculSpeechListRange(speaker.speech_list)" >
-          <li v-bind:key="speech.date">
-            <!-- {{speech.date}} -->
-            {{speech.camp}}
-            {{speech.title}}
-          </li>
-        </template>
-      </ul>
-    </li>
-  </template>
-
-</ul>
+  <ul v-if="!!speaker_list" class="speakers_container" v-masonry gutter="20" fit-width="true" item-selector=".speaker">
+    <template v-for="speaker in speaker_list">
+      <li v-masonry-tile class="speaker" column-width=".speaker" v-if="speaker.speeches_count>0" v-bind:key="speaker.name">
+        <div class="speaker_name" v-on:click="showChart(speaker)">
+          <img v-bind:src="speaker.photo" alt=""> {{ speaker.name }}
+        </div>
+        <h3>總演講次數: {{speaker.speeches_count}}</h3>
+        <div class="speaker_chart" v-if="speaker.showChart">
+            <ve-line  :data="speaker.chartData" :data-zoom="speaker_dataZoom" :settings="chartXMax" ></ve-line>
+        </div>
+        <ul class="speaker_speechList" v-if="speaker.showChart">
+          <template v-for="speech in calculSpeechListRange(speaker.speech_list)" >
+            <li class="speechList__item" v-bind:key="speech.title">
+              <!-- {{speech.date}} -->
+              <div
+                class="speechList__item--camp"
+                v-bind:class="'camp--' +convertClassToCampName(speech.camp)">
+                  {{convertClassToCampName(speech.camp)}}
+              </div>
+              <div class="speechList__item--title">
+                {{speech.title}}
+              </div>
+            </li>
+          </template>
+        </ul>
+      </li>
+    </template>
+  </ul>
 </template>
 
 <script>
@@ -84,6 +89,27 @@ export default {
       return list.filter(item => {
         return moment(item.date).isBetween(startMonth, endMonth, 'month', '[]')
       });
+    },
+    convertClassToCampName: function (className) {
+      switch (className) {
+        case 'HTML':
+        case 'JavaScript':
+        case 'CSS':
+        case 'Vue':
+        case 'Front-end':
+          return 'web';
+        case 'NodeJS':
+        case 'Security':
+        case 'Backend-end':
+        case 'backend-end':
+          return 'backend';
+        case 'Android':
+          return 'android';
+        case 'IOS':
+          return 'ios';
+        default:
+          return className;
+      }
     }
   }
 }

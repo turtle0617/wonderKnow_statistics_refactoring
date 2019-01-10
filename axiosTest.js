@@ -1,8 +1,27 @@
-// const axios = require("axios");
-// const moment = require("moment");
+// const axios = require('axios');
+// const moment = require('moment');
 //
-// let url = "https://devche.com/api/speech/data";
+// let url = 'https://devche.com/api/speech/data';
+// test();
 //
+// function test () {
+//   axios({
+//     url: 'http://35.221.242.75/api/register',
+//     method: 'post',
+//     headers: {
+//       'Content-Type': 'application/json',
+//       'Accept': 'application/json'
+//     },
+//     data: {
+//       name: 'qqqq',
+//       email: 'qqqq@example.com',
+//       password: 'qqqq',
+//       password_confirmation: 'qqqq'
+//     }
+//   })
+//     .then(response => console.log(response.data))
+//     .catch(e => console.log(e.response));
+// }
 // getResult();
 //
 // function getSpeechRawData() {
@@ -10,22 +29,22 @@
 //     return Error(response.status);
 //   });
 // }
-//
+
 // function getResult() {
-//   let all_speakers_speech_statistic = {
-//     chartData: {
-//       columns: ["month", "month_talks_count"],
-//       rows: generateEveryMonthToNow()
-//     }
-//   };
-//   axios
-//     .get(url)
-//     .then(generateSpeakersSpeechList)
-//     .then(response => {
-//       return calculSpeakersSpeechCount(response, all_speakers_speech_statistic);
-//     });
+// let all_speakers_speech_statistic = {
+//   chartData: {
+//     columns: ["month", "month_talks_count"],
+//     rows: generateEveryMonthToNow()
+//   }
+// };
+// axios
+//   .get(url)
+//   .then(generateSpeakersSpeechList)
+//   .then(response => {
+//     return calculSpeakersSpeechCount(response, all_speakers_speech_statistic);
+//   });
 // }
-//
+
 // function generateSpeakersSpeechList(response) {
 //   let repeat_speakers = response.result.map(result => result.speaker);
 //   let unique_speakers = [...new Set(repeat_speakers)].map(speaker => {
