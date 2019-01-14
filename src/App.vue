@@ -8,8 +8,20 @@
     <router-link to="/android">Android</router-link> |
   </div>
   <router-view/>
+  <div class="scrollTop" v-on:click="scrollTop">
+      <i class="fas fa-sort-up"></i>
+  </div>
 </div>
 </template>
+<script type="text/javascript">
+export default {
+  methods: {
+    scrollTop: function () {
+      (document.documentElement || document.body).scrollTop = 0;
+    }
+  }
+}
+</script>
 <style lang="scss">
 @import "./assets/componentStyle.scss";
 </style>

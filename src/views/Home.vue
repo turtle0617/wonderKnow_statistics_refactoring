@@ -5,14 +5,12 @@
     <ve-line :after-set-option-once="getChartInit"  :data="all_speakers_speech_statistic.chartData" :data-zoom="all_speakers_dataZoom" :events="detectSliderMove()"></ve-line>
   </div>
   <speakerDisplay :speakerList="speaker_list" :chartXMax="chartSettings" :dataZoomDuration="dataZoom_duration"/>
-  <scrollTop />
 </div>
 </template>
 
 <script>
 import 'v-charts/lib/style.css'
 import speakerDisplay from '@/components/speakerDisplay.vue'
-import scrollTop from '@/components/scrollTop.vue'
 import API from '../axios'
 import {
   generateSpeakersSpeechList,
@@ -57,8 +55,7 @@ export default {
       })
   },
   components: {
-    speakerDisplay,
-    scrollTop
+    speakerDisplay
   },
   methods: {
     calculSpeechMaxCount: function () {

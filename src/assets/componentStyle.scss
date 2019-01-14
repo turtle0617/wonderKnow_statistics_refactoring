@@ -52,7 +52,7 @@ ul {
 }
 
 li > h1 {
-  color: #7a062e;
+  color: #1e8ba6;
 }
 
 li > label {
@@ -83,7 +83,7 @@ li > label {
   }
 }
 
-.Summary{
+.Summary {
   @include phone-width {
     margin-top: 20px;
   }
@@ -113,38 +113,55 @@ li > label {
   @include phone-width {
     width: 88%;
   }
-  @include pad-width{
+  @include pad-width {
     width: 300px;
   }
-  &_name{
+
+  &_name {
     @extend %speaker_name;
   }
-
 }
 
-.speechList__item{
+.speechList__item {
   background-color: rgba(255,255,255,.8);
   margin-top: 5px;
   border-radius: 5px;
   position: relative;
-  padding: .5rem 1rem;
+  padding: 0.5rem 1rem;
   color: rgba(0, 0, 0,.8);
   cursor: pointer;
-  &:hover{
+
+  &:hover {
     background-color: rgba(255,255,255,.6);
     color: rgba(112, 113, 114,1);
   }
-  &--camp{
+
+  &--camp {
     display: inline-block;
     font-size: 0.7125rem;
     font-weight: 700;
     color: #898986;
   }
-  &--title{
+
+  &--title {
     font-size: 1rem;
     font-weight: 600;
   }
 }
+
+.scrollTop {
+  background-color: #42b983;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 2rem;
+  cursor: pointer;
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
+}
+
 .Summary {
   // margin-left: 30px;
   flex-basis: 82%;
@@ -152,6 +169,7 @@ li > label {
 
 a {
   color: #42b983;
+  text-decoration: none;
 }
 
 .fade-enter-active,
