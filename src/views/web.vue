@@ -1,15 +1,14 @@
 <template>
-<div class="backend">
-  <androidDisplay v-bind:talks="talks" />
-  <!-- <getData v-on:send-datas="receiveData" /> -->
+<div class="web">
+  <webDisplay v-bind:talks="talks" />
 </div>
 </template>
 
 <script>
-import androidDisplay from '@/components/androidDisplay.vue'
+import webDisplay from '@/components/webDisplay.vue'
 import API from '../axios'
 export default {
-  name: 'backend',
+  name: 'web',
   data: function () {
     return {
       talks: []
@@ -29,7 +28,7 @@ export default {
       })
   },
   components: {
-    androidDisplay
+    webDisplay
   }
 }
 </script>

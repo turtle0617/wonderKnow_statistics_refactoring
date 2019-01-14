@@ -15,9 +15,17 @@ export default {
     }
   },
   mounted: function () {
+    const anchor = this.$router.currentRoute.hash;
     API.GET('/speech/data').then(response => {
       this.talks = response.result
     })
+      .then(() => {
+        this.$nextTick(() => {
+          if (anchor && document.querySelector(anchor)) {
+            location.href = anchor;
+          }
+        });
+      })
   },
   components: {
     iosDisplay

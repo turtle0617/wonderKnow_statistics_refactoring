@@ -11,17 +11,19 @@
         </div>
         <ul class="speaker_speechList" v-if="speaker.showChart">
           <template v-for="speech in calculSpeechListRange(speaker.speech_list)" >
-            <li class="speechList__item" v-bind:key="speech.title">
-              <!-- {{speech.date}} -->
-              <div
-                class="speechList__item--camp"
-                v-bind:class="'camp--' +convertClassToCampName(speech.camp)">
-                  {{convertClassToCampName(speech.camp)}}
-              </div>
-              <div class="speechList__item--title">
-                {{speech.title}}
-              </div>
-            </li>
+              <router-link tag="li"
+               v-bind:to="getAnchorName(speech.camp,speaker.name,speech.date)"
+               class="speechList__item"
+               v-bind:key="speech.title">
+                <div
+                  class="speechList__item--camp"
+                  v-bind:class="'camp--' +convertClassToCampName(speech.camp)">
+                    {{convertClassToCampName(speech.camp)}}
+                </div>
+                <div class="speechList__item--title">
+                  {{speech.title}}
+                </div>
+              </router-link>
           </template>
         </ul>
       </li>
@@ -89,6 +91,11 @@ export default {
       return list.filter(item => {
         return moment(item.date).isBetween(startMonth, endMonth, 'month', '[]')
       });
+    },
+    getAnchorName: function (className, name, date) {
+      const campName = this.convertClassToCampName(className);
+      const anchorName = `${campName}#${name}${date}`;
+      return anchorName.split(' ').join('');
     },
     convertClassToCampName: function (className) {
       switch (className) {

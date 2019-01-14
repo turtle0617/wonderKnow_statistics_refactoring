@@ -1,18 +1,20 @@
 <template>
 <ul>
-  <li class="talk" v-for="(talk,index) in androidTalks" v-bind:key="index">
-    <h1>{{talk.title}}</h1>
-    <div class="talk_title">
-      <div class="speaker_name">
-        <img v-bind:src="talk.speaker_img" alt="">
-        <span>{{talk.speaker}}</span>
+  <template v-for="(talk,index) in androidTalks">
+    <li class="talk" v-bind:id="getAnchorName(talk.speaker,talk.speech_date)" v-bind:key="index">
+      <h1>{{talk.title}}</h1>
+      <div class="talk_title">
+        <div class="speaker_name">
+          <img v-bind:src="talk.speaker_img" alt="">
+          <span>{{talk.speaker}}</span>
+        </div>
+        <div class="Summary">
+          {{talk.message}}
+        </div>
       </div>
-      <div class="Summary">
-        {{talk.message}}
-      </div>
-    </div>
-    <label>日期：{{talk.speech_date}}</label>
-  </li>
+      <label>日期：{{talk.speech_date}}</label>
+    </li>
+  </template>
 </ul>
 </template>
 
@@ -20,6 +22,10 @@
 export default {
   props: ['talks'],
   methods: {
+    getAnchorName: function (name, date) {
+      const id = name + date;
+      return id.split(' ').join('');
+    },
     isAndroid: function (item) {
       const androidCondition = ['Android']
       let photo = item.speaker_img

@@ -1,7 +1,7 @@
 <template>
-<ul>
-  <template  v-for="(talk,index) in iosTalks">
-    <li class="talk"  v-bind:id="getAnchorName(talk.speaker,talk.speech_date)" v-bind:key="index">
+<ul v-if="frontendTalks.length">
+  <template v-for="(talk,index) in frontendTalks">
+    <li class="talk"   v-bind:id="getAnchorName(talk.speaker,talk.speech_date)" v-bind:key="index">
       <h1>{{talk.title}}</h1>
       <div class="talk_title">
         <div class="speaker_name">
@@ -26,11 +26,11 @@ export default {
       const id = name + date;
       return id.split(' ').join('');
     },
-    isIOS: function (item) {
-      const iosCondition = ['IOS']
+    isFrontend: function (item) {
+      const frontEndCondition = ['Front-end', 'CSS', 'JavaScript', 'HTML', 'Vue']
       let photo = item.speaker_img
       item.speaker_img = this.checkPhoto(photo)
-      return iosCondition.includes(item.class)
+      return frontEndCondition.includes(item.class)
     },
     checkPhoto: function (photo) {
       let hasPhoto = photo.includes('imgur')
@@ -40,18 +40,14 @@ export default {
       }
       return photo
     }
+
   },
   computed: {
-    iosTalks: function () {
-      // let arr = this.talks.map(talk => talk.speaker_img)
-      // return arr;
-      let iosTalks = this.talks.filter(this.isIOS)
-      return iosTalks.reverse()
+    frontendTalks: function () {
+      let frontendTalks = this.talks.filter(this.isFrontend)
+      // let frontendTalks = this.talks.filter(data => isFrontend(data));
+      return frontendTalks.reverse()
     }
   }
 }
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-</style>
