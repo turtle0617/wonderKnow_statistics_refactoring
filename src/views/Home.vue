@@ -2,7 +2,7 @@
 <div class="home" >
   <div v-if="!!all_speakers_speech_statistic" class="all_speakers_speech_statistic">
     <h1>總演講次數 : {{all_speakers_speech_statistic.speeches_count}}</h1>
-    <ve-line :after-set-option-once="getChartInit"  :data="all_speakers_speech_statistic.chartData" :data-zoom="all_speakers_dataZoom" :events="detectSliderMove()"></ve-line>
+    <ve-line :extend="allSpeakerChartExtend" :after-set-option-once="getChartInit"  :data="all_speakers_speech_statistic.chartData" :data-zoom="all_speakers_dataZoom" :events="detectSliderMove()"></ve-line>
   </div>
   <speakerDisplay :speakerList="speaker_list" :chartXMax="chartSettings" :dataZoomDuration="dataZoom_duration"/>
 </div>
@@ -27,6 +27,9 @@ export default {
       chartRowEndIndex: null,
       chartSettings: {
         max: []
+      },
+      allSpeakerChartExtend:{
+        color: '#4484ce'
       },
       all_speakers_dataZoom: {
         type: 'slider',

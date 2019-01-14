@@ -7,7 +7,7 @@
         </div>
         <h3>總演講次數: {{speaker.speeches_count}}</h3>
         <div class="speaker_chart" v-if="speaker.showChart">
-            <ve-line  :data="speaker.chartData" :data-zoom="speaker_dataZoom" :settings="chartXMax" ></ve-line>
+            <ve-line  :extend="speakerChartExtend" :data="speaker.chartData" :data-zoom="speaker_dataZoom" :settings="chartXMax" ></ve-line>
         </div>
         <ul class="speaker_speechList" v-if="speaker.showChart">
           <template v-for="speech in calculSpeechListRange(speaker.speech_list)" >
@@ -44,6 +44,9 @@ export default {
       speaker_list: null,
       startMonth: [2017, 3],
       endMonth: moment(),
+      speakerChartExtend:{
+        color: '#4484ce'
+      },
       speaker_dataZoom: {
         type: 'slider',
         show: false,
