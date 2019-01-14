@@ -1,5 +1,5 @@
 # wonderKnow_statistics_refactoring
  這是好想工作室的想知道嗎活動 演講統計圖 架構重構版本 <br>
  共分為 Front-end,Back-end,IOS,Android 及 講者 統計。<br>
- github Page : https://turtle0617.github.io/wonderKnow_statistics_refactoring/
+ github Page : https://turtle0617.github.io/wonderKnow_statistics_refactoring/ <br>
  此為想知道嗎網址：https://devche.com/goodideabillboard/index.html#/
