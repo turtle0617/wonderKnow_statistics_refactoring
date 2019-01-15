@@ -37,7 +37,7 @@ export default {
     checkPhoto: function (photo) {
       let hasPhoto = photo.includes('imgur')
       if (!hasPhoto) {
-        photo = '/goodidea.png'
+        photo = process.env.BASE_URL + 'goodidea.png'
         return photo
       }
       return photo
