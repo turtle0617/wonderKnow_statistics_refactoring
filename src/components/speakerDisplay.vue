@@ -44,7 +44,7 @@ export default {
       speaker_list: null,
       startMonth: [2017, 3],
       endMonth: moment(),
-      speakerChartExtend:{
+      speakerChartExtend: {
         color: '#4484ce'
       },
       speaker_dataZoom: {

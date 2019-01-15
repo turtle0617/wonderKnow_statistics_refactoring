@@ -28,7 +28,7 @@ export default {
       chartSettings: {
         max: []
       },
-      allSpeakerChartExtend:{
+      allSpeakerChartExtend: {
         color: '#4484ce'
       },
       all_speakers_dataZoom: {

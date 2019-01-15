@@ -9,16 +9,15 @@ import iosDisplay from '@/components/iosDisplay.vue'
 import API from '../axios'
 export default {
   name: 'backend',
-  data: function() {
+  data: function () {
     return {
       talks: []
     }
   },
-  mounted: function() {
-    const anchor = this.$router.currentRoute.hash;
-      API.GET('/speech/data').then(response => {
-        this.talks = response.result
-      })
+  mounted: function () {
+    API.GET('/speech/data').then(response => {
+      this.talks = response.result
+    })
   },
   updated () {
     const anchor = this.$router.currentRoute.hash;
