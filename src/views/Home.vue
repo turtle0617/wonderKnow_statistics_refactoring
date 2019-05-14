@@ -92,7 +92,6 @@ export default {
         startMonth: xAxis.data[startIndex],
         endMonth: xAxis.data[endIndex]
       }
-      console.log(duration.startMonth, duration.endMonth);
       this.all_speakers_dataZoom.start = startPoint;
       this.all_speakers_dataZoom.end = endPoint;
       this.all_speakers_speech_statistic.speeches_count = calculMonthPeriodSpeechCount(
