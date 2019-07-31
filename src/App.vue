@@ -1,7 +1,7 @@
 <template>
 <div id="app">
   <div class="nav">
-    <router-link to="/">Members</router-link>
+    <router-link to="/" exact>Members</router-link>
     <div class="nav__separate">|</div>
     <router-link to="/web">Web</router-link>
     <div class="nav__separate">|</div>
