@@ -6,15 +6,17 @@
 ## 動機:
 
 好想工作室每周都會舉辦演講，讓各個開發者主講自己的成果，但隨著演講場次增加，透過既有的列表方式已無法呈現場次統計以及區分領域，而圖表的呈現能達到這樣的需求 。
-
 ## 功能:
 
 1. 清楚記錄截至目前的場次及圖表呈現
-![](https://i.imgur.com/onoakrL.png)
-1. 顯示各場演講的講者、主題
-![](https://i.imgur.com/FCuew1Y.png)
-1. 可依照特定時間週期瀏覽其場次、講者及主題
+    ![](https://i.imgur.com/onoakrL.png)
 
-![](https://i.imgur.com/3yn0oYI.gif)
+1. 顯示各場演講的講者、主題
+    ![](https://i.imgur.com/FCuew1Y.png)
+
+1. 可依照特定時間週期瀏覽其場次、講者及主題
+    ![](https://i.imgur.com/BPdSTJf.gif)
+
 1. 依照 web, back-end, iOS, Android 區分 camp 顯示演講列表
-![](https://i.imgur.com/AWfwxhR.gif)
+    ![](https://i.imgur.com/AWfwxhR.gif)
+
